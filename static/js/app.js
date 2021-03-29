@@ -1,3 +1,66 @@
+//Grab List of Sample Names
+idArray = d3.json(`../../data/samples.json`, function (data) { data['names'] });
+console.log(idArray);
+
+// Fill dropdown selection menu
+function assignOptions(textArray, selector) {
+    for (var i = 0; i < textArray.length; i++) {
+        var currentOption = document.createElement('option');
+        currentOption.text = textArray[i];
+        selector.appendChild(currentOption);
+    }
+}
+
+assignOptions(listofCountries, countrySelector);
+
+countrySelector.addEventListener('change', updateCountry, false);
+
+// Assign User Selection to Variable
+var id = d3.select('#selDataset');
+
+// Fetch data from samples.json
+
+function unpack(rows, index) {
+    return rows.map(function (row) {
+        return row[index];
+    });
+}
+
+function getJsonData(id) {
+
+    var jsonPath = `../../data/samples.json`;
+    d3.json(jsonPath).then(function (data) {
+        console.log(data);
+        if (data['samples']['id'] == id && data['metadata']['id'] == id) {
+            var sampleValues = data['samples']['sample_values'];
+            var otuIds = data['samples']['otu_ids'];
+            var otuLabels = data['samples']['otu_labels'];
+            var id = unpack(data['metadata'], 0);
+            var ethnicity = unpack(data['metadata'], 1);
+            var age = unpack(data['metadata'], 2);
+            var location = unpack(data['metadata'], 3);
+            var bbtype = unpack(data['metadata'], 4);
+            var wfreq = unpack(data['metadata'], 5);
+            buildPanel(id, ethnicity, age, location, bbtype, wfreq)
+        };
+    });
+};
+
+function buildPanel(id, ethnicity, age, location, bbtype, wfreq) {
+    var table = d3.select("#sample-metadata");
+    var tbody = table.select("tbody");
+    var trow;
+    for (var i = 0; i < 1; i++) {
+        trow = tbody.append("tr");
+        trow.append("td").text(id[i]);
+        trow.append("td").text(ethnicity[i]);
+        trow.append("td").text(age[i]);
+        trow.append("td").text(location[i]);
+        trow.append("td").text(bbtype[i]);
+        trow.append("td").text(wfreq[i]);
+    }
+};
+
 // Horizontal Bar Chart
 var trace1 = {
     y: ['Liam', 'Sophie', 'Jacob', 'Mia', 'William', 'Olivia'],
