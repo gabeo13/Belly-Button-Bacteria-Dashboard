@@ -92,11 +92,11 @@ function buildPlot(id) {
 
         // Horizontal Bar Chart
         var trace1 = {
-            y: cleanOtuIDs,
-            x: sampleValues,
+            y: cleanOtuIDs.slice(0, 10).reverse(),
+            x: sampleValues.slice(0, 10).reverse(),
             type: 'bar',
             hovertext: otuLabels,
-            orientation: 'h'
+            orientation: 'h',
         };
 
         var data = [trace1];
@@ -122,6 +122,7 @@ function buildPlot(id) {
             mode: 'markers',
             marker: {
                 color: otuIds,
+                colorscale: 'Viridis',
                 size: sampleValues
             }
         };
