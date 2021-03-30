@@ -58,13 +58,13 @@ function buildPlot(id) {
         console.log(wayTooMeta);
 
         // Format Metadata  
-        const cleanedMeta = wayTooMeta.map(entry => entry.join(': '));
+        var cleanedMeta = wayTooMeta.map(entry => entry.join(': '));
 
         // Reset List
         d3.select('#sample-metadata>ul').remove();
 
         // Build UL Tag in index.html using d3 command
-        const metaList = d3.select('#sample-metadata').append('ul');
+        var metaList = d3.select('#sample-metadata').append('ul');
 
         // Append li tags and content to ul
         cleanedMeta.forEach(item => {
@@ -82,7 +82,7 @@ function buildPlot(id) {
         var otuIds = chosenData[0]['otu_ids'];
 
         // Clean Transform OTU ID's into plottable categorical variable //
-        const cleanOtuIDs = [];
+        var cleanOtuIDs = [];
 
         Object.values(otuIds).forEach((id) => {
             var items = (`OTU:${id}`);
