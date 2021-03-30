@@ -36,25 +36,63 @@ function unpack(rows, index) {
 };
 
 
-
+// Extract Transform and Load Desired JSON Data Into Dashboard Elements
 function buildPlot(id) {
 
     var jsonPath = `../../data/samples.json`;
     d3.json(jsonPath).then(function (data) {
         console.log(data);
-        var sampleSet = data['samples'];
-        console.log(sampleSet);
 
+        // Assign 'sample' json data to a variable
+        var sampleSet = data['samples'];
+
+        // Assign 'metadata' json data to a variable
+        var metaData = data['metadata'];
+
+        // Filter metadata on chosen id from dropdown menu
+        var chosenMeta = metaData.filter(record => record.id == id);
+        console.log(chosenMeta);
+
+        // Extract Transform and Load Metadata into Panel
+        var wayTooMeta = Object.entries(chosenMeta[0]);
+        console.log(wayTooMeta);
+
+        // reformat the info  
+        const cleanedMeta = wayTooMeta.map(entry => entry.join(': '));
+
+        // clear existing list
+        d3.select('#sample-metadata>ul').remove();
+
+        // create a list of subject's demographic data
+        const metaList = d3.select('#sample-metadata').append('ul');
+
+        // append demographic info to metadata panel
+        cleanedMeta.forEach(item => {
+            var itemText = metaList.append('li');
+            itemText.text(`${item}`);
+        });
+
+        // Filter Dataset on chosen id from dropdown menu
         var chosenData = sampleSet.filter(record => record.id == id);
         console.log(chosenData);
 
+        // Extract primary plot arrays from json call
         var sampleValues = chosenData[0]['sample_values'];
         var otuLabels = chosenData[0]['otu_labels'];
         var otuIds = chosenData[0]['otu_ids'];
 
+        //Clean Transform OTU ID's into plottable categorical variable
+        const cleanOtuIDs = [];
+
+        Object.values(otuIds).forEach((id) => {
+            var items = (`OTU:${id}`);
+            cleanOtuIDs.push(items);
+        });
+        console.log(cleanOtuIDs);
+
         // Horizontal Bar Chart
         var trace1 = {
-            y: otuIds,
+            y: cleanOtuIDs,
             x: sampleValues,
             type: 'bar',
             hovertext: otuLabels,
@@ -76,30 +114,30 @@ function buildPlot(id) {
 
         Plotly.newPlot('bar', data, layout);
 
+        // Bubble Chart 
+        var trace1 = {
+            x: otuIds,
+            y: sampleValues,
+            text: otuLabels,
+            mode: 'markers',
+            marker: {
+                color: otuIds,
+                size: sampleValues
+            }
+        };
+
+        var data = [trace1];
+
+        var layout = {
+            title: 'Belly Button Bubble Chart',
+            showlegend: false,
+        };
+
+        Plotly.newPlot('bubble', data, layout);
+
     });
 
-    // // Bubble Chart 
-    // var trace1 = {
-    //     x: [1, 2, 3, 4],
-    //     y: [10, 11, 12, 13],
-    //     text: ['A<br>size: 40', 'B<br>size: 60', 'C<br>size: 80', 'D<br>size: 100'],
-    //     mode: 'markers',
-    //     marker: {
-    //         color: ['rgb(93, 164, 214)', 'rgb(255, 144, 14)', 'rgb(44, 160, 101)', 'rgb(255, 65, 54)'],
-    //         size: [40, 60, 80, 100]
-    //     }
-    // };
 
-    // var data = [trace1];
-
-    // var layout = {
-    //     title: 'Bubble Chart Hover Text',
-    //     showlegend: false,
-    //     height: 600,
-    //     width: 600
-    // };
-
-    // Plotly.newPlot('bubble', data, layout);
 
 
     // // Gauge Chart
