@@ -81,7 +81,7 @@ function buildPlot(id) {
         var otuLabels = chosenData[0]['otu_labels'];
         var otuIds = chosenData[0]['otu_ids'];
 
-        //Clean Transform OTU ID's into plottable categorical variable
+        // Clean Transform OTU ID's into plottable categorical variable //
         const cleanOtuIDs = [];
 
         Object.values(otuIds).forEach((id) => {
@@ -114,7 +114,7 @@ function buildPlot(id) {
 
         Plotly.newPlot('bar', data, layout);
 
-        // Bubble Chart 
+        // Bubble Chart //
         var trace1 = {
             x: otuIds,
             y: sampleValues,
@@ -142,7 +142,7 @@ function buildPlot(id) {
 
         Plotly.newPlot('bubble', data, layout);
 
-        // Gauge Chart
+        // Gauge Chart //
         var data = [
             {
                 type: "indicator",
