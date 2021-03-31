@@ -1,6 +1,5 @@
 //Read in JSON file and establish dropdown menu of options
-//var jsonPath = `../../data/samples.json`;
-var jsonPath = 'https://github.com/gabeo13/ploty-challenge/blob/main/data/samples.json'
+var jsonPath = `data/samples.json`;
 d3.json(jsonPath).then(function (data) {
     console.log(data);
 
