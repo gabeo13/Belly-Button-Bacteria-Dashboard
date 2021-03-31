@@ -95,7 +95,7 @@ function buildPlot(id) {
             y: cleanOtuIDs.slice(0, 10).reverse(),
             x: sampleValues.slice(0, 10).reverse(),
             type: 'bar',
-            hovertext: otuLabels,
+            hovertext: otuLabels.slice(0, 10).reverse(),
             orientation: 'h',
         };
 
