@@ -39,7 +39,7 @@ optionChanged();
 // Extract Transform and Load Desired JSON Data Into Dashboard Elements
 function buildPlot(id) {
 
-    var jsonPath = `../../data/samples.json`;
+    var jsonPath = `data/samples.json`;
     d3.json(jsonPath).then(function (data) {
         console.log(data);
 
