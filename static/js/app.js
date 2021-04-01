@@ -27,15 +27,6 @@ function optionChanged() {
 
 optionChanged();
 
-
-// // Unpack function for listed arrays
-// function unpack(rows, index) {
-//     return rows.map(function (row) {
-//         return row[index];
-//     });
-// };
-
-
 // Extract Transform and Load Desired JSON Data Into Dashboard Elements
 function buildPlot(id) {
 
